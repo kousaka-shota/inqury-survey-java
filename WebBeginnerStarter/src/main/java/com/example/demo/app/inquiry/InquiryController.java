@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.example.demo.entity.Inquiry;
+import com.example.demo.service.InquiryNotFoundException;
 import com.example.demo.service.InquiryService;
 
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +40,7 @@ public class InquiryController {
         List<Inquiry> list = inquiryService.getAll();
         model.addAttribute("inquiryList", list);
         model.addAttribute("title", "inquiry index");
-        return "inquiry/index";
+        return "inquiry/index_boot";
     }
     
 
@@ -102,8 +104,12 @@ public class InquiryController {
         return "redirect:/inquiry/form";
     }
     
-    
-    
+    // このContrllerで以下のエラーが起きたらこれが実行される書き方
+    // @ExceptionHandler(InquiryNotFoundException.class)
+    // public String handleException(InquiryNotFoundException e, Model model){
+    //     model.addAttribute("message", e);
+    //     return "error/CustomPage";
+    // }
     
 
 }

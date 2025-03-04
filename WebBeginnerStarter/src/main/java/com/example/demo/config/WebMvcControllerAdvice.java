@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.InitBinder;
 
+// ここの処理は全部のControllerで発生した例外処理に対処する
 @ControllerAdvice
 public class WebMvcControllerAdvice {
 
@@ -19,6 +20,7 @@ public class WebMvcControllerAdvice {
         dataBinder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     }
     
+	
 	@ExceptionHandler(EmptyResultDataAccessException.class)
 	public String handleException(EmptyResultDataAccessException e,Model model) {
 		model.addAttribute("message", e);
