@@ -49,7 +49,7 @@ public class InquiryController {
     @ModelAttribute("complete") String complete,
     Model model) {
         model.addAttribute("title", "in");
-        return "inquiry/form";
+        return "inquiry/form_boot";
     }
 
     @PostMapping("/confirm")
@@ -62,16 +62,16 @@ public class InquiryController {
     ) {
         if (result.hasErrors()){
             model.addAttribute("title", "inquiry");
-            return "inquiry/form";
+            return "inquiry/form_boot";
         }
         model.addAttribute("title", "confirm");
-        return "inquiry/confirm";
+        return "inquiry/confirm_boot";
     }
 
     @PostMapping("/form")
     public String formGoBack(InquiryForm inquiryForm, Model model) {
         model.addAttribute("title", "inquiry");
-        return "inquiry/form";
+        return "inquiry/form_boot";
     }
 
     @PostMapping("/complete")
@@ -86,7 +86,7 @@ public class InquiryController {
     ) {
         if (result.hasErrors()){
             model.addAttribute("title", "inquiry");
-            return "inquiry/form";
+            return "inquiry/form_boot";
         }
 
         // Serviceに渡すためのInquiryを作成（Formから詰め変える）
