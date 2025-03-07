@@ -29,10 +29,12 @@ public class TaskController {
     @GetMapping
     public String index(TaskForm taskForm,Model model) {
         model.addAttribute("title", "Home");
+        taskForm.setNewTask(true);
         model.addAttribute("taskForm", taskForm);
 
         List<Task> list = service.findAll();
         model.addAttribute("list", list);
+        System.out.println(list.get(0).getId());
 
         return "task/index";
     }
