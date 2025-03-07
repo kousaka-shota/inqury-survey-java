@@ -12,73 +12,51 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class TaskForm {
 
     @Digits(integer = 1, fraction = 0)
+    @NotNull(message = "選択してください")
     private int typeId;
 
-    @NotNull (message = "タイトルを入力してください。")
-    @Size(min = 1, max = 20, message = "20文字以内で入力してください。")
+    @NotNull(message = "入力してください")
+    @Size(max=20,min=1,message = "20文字以内で入力してください")
     private String title;
 
-    @NotNull (message = "内容を入力してください。")
+    @NotNull(message = "入力してください")
     private String detail;
 
-    @NotNull (message = "期限を設定してください。")
+    @NotNull(message = "期限を入力してください")
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
-    @Future (message = "期限が過去に設定されています。")
+    @Future(message = "過去の日程が入力されています")
     private LocalDateTime deadline;
 
     private boolean newTask;
-    
-    public TaskForm() {}
 
-	public TaskForm(int typeId,
-			String title,
-			String detail, 
-			LocalDateTime deadline,
-			boolean newTask) {
-		this.typeId = typeId;
-		this.title = title;
-		this.detail = detail;
-		this.deadline = deadline;
-		this.newTask = newTask;
-	}
-
-	public int getTypeId() {
-		return typeId;
-	}
-
-	public void setTypeId(int typeId) {
-		this.typeId = typeId;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getDetail() {
-		return detail;
-	}
-
-	public void setDetail(String detail) {
-		this.detail = detail;
-	}
-
-	public LocalDateTime getDeadline() {
-		return deadline;
-	}
-
-	public void setDeadline(LocalDateTime deadline) {
-		this.deadline = deadline;
-	}
-	
-	public boolean isNewTask() {
-		return newTask;
-	}
-
-	public void setNewTask(boolean newTask) {
-		this.newTask = newTask;
-	}
+    public int getTypeId(){
+        return this.typeId;
+    }
+    public void setTypeId(int typeId){
+        this.typeId = typeId;
+    }
+    public String getTitle(){
+        return this.title;
+    }
+    public void setTitle(String title){
+        this.title = title;
+    }
+    public String getDetail(){
+        return this.detail;
+    }
+    public void setDetail(String detail){
+        this.detail = detail;
+    }
+    public LocalDateTime getDeadline(){
+        return this.deadline;
+    }
+    public void setDeadline(LocalDateTime deadline){
+        this.deadline = deadline;
+    }
+    public boolean getNewTask(){
+        return this.newTask;
+    }
+    public void setNewTask(boolean newTask){
+        this.newTask = newTask;
+    }
 }

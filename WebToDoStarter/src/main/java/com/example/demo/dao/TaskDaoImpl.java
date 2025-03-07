@@ -25,20 +25,20 @@ public class TaskDaoImpl implements TaskDao{
     
     @Override
     public List<Task> findAll(){
-        String sql = "SELECT * FROM task INNER JOIN task_type ON task.type_id = task_type.id";
+        String sql = "SELECT task.id, user_id, type_id, title, detail, deadline, type, comment FROM task INNER JOIN task_type ON task.type_id = task_type.id";
         List<Map<String,Object>> resultList = jdbcTemplate.queryForList(sql);
         ArrayList<Task> taskList = new ArrayList<Task>();
 
         for (Map<String,Object> item : resultList){
             Task task = new Task();
             task.setId((int)item.get("id"));
-            task.setUserId((int)item.get("userId"));
-            task.setTypeId((int)item.get("typeId"));
+            task.setUserId((int)item.get("user_id"));
+            task.setTypeId((int)item.get("type_id"));
             task.setTitle((String)item.get("title"));
             task.setDetail((String)item.get("detail"));
             task.setDeadline(((Timestamp)item.get("deadline")).toLocalDateTime());
             TaskType type = new TaskType();
-            type.setId((int)item.get("type_id"));
+            type.setId((int)item.get("id"));
             type.setType((String)item.get("type"));
             type.setComment((String)item.get("comment"));
 
