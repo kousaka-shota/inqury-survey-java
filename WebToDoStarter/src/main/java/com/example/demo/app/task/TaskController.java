@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demo.entity.Task;
@@ -28,7 +30,7 @@ public class TaskController {
 
     @GetMapping
     public String index(TaskForm taskForm,Model model) {
-        model.addAttribute("title", "Home");
+        model.addAttribute("title", "タスク一覧");
         taskForm.setNewTask(true);
         model.addAttribute("taskForm", taskForm);
 
@@ -40,10 +42,23 @@ public class TaskController {
     }
 
     @PostMapping("/insert")
-    public String insert(Model model) {
-        //TODO: process POST request
+    public String insert(@Validated TaskForm taskForm,BindingResult result,Model model) {
+        if (result.hasErrors()){
+            model.addAttribute("title", "タスク一覧");
+            return "task/index";
+        }
+        Task task = new Task();
+        // userIdをどうするか不明
+        // task.setUserId(1);
+        task.setTypeId(taskForm.getTypeId());
+        task.setTitle(taskForm.getTitle());
+        task.setDetail(taskForm.getDetail());
+        task.setDeadline(taskForm.getDeadline());
+        // taskTypeをidからgetしてきてsetする
         
-        return "";
+        service.insert(task);
+        model.addAttribute("complete", "Registered");
+        return "task/index";
     }
     
     @PostMapping("/update")

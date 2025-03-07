@@ -79,7 +79,7 @@ public class TaskDaoImpl implements TaskDao{
      @Override
      public void insert(Task task){
         jdbcTemplate.update(
-            "INSERT INTO Task(userId, typeId, taskType, title, detail, deadline) VALUES(?, ?, ?, ?, ?, ?)",
+            "INSERT INTO Task(user_id, type_id, taskType, title, detail, deadline) VALUES(?, ?, ?, ?, ?, ?)",
             task.getUserId(),task.getTypeId(),task.getTaskType(),task.getTitle(),task.getDetail(),task.getDeadline());
      }
 
