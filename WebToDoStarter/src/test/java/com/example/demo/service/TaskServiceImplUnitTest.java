@@ -26,7 +26,7 @@ class TaskServiceImplUnitTest {
     private TaskDao dao;
 
     @InjectMocks // テスト対象クラス　モックを探す newする
-    private TaskServiceImpl_test taskServiceImpl;
+    private TaskServiceImpl taskServiceImpl;
 
     @Test // テストケース
     @DisplayName("テーブルtaskの全件取得で0件の場合のテスト")

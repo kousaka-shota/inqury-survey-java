@@ -52,17 +52,15 @@ public class TaskDaoImpl implements TaskDao{
      @Override
      public Optional<Task> findById(int id){
         Map<String, Object> map = jdbcTemplate.queryForMap(
-            "SELECT * FROM task INNER JOIN task_type ON task.type_id = task_type.id WHERE task.id = ?",
+            "SELECT task.id, user_id, type_id, title, detail, deadline, type, comment FROM task INNER JOIN task_type ON task.type_id = task_type.id WHERE task.id = ?",
             id);//?の部分に第二引数以降のデータが入る→プリペアードステートメントという。SQLインジェクション対策
-        
         Task task = new Task();
         task.setId((int)map.get("id"));
-        task.setUserId((int)map.get("userId"));
-        task.setTypeId((int)map.get("typeId"));
+        task.setUserId((int)map.get("user_id"));
+        task.setTypeId((int)map.get("type_id"));
         task.setTitle((String)map.get("title"));
         task.setDetail((String)map.get("detail"));
         task.setDeadline(((Timestamp)map.get("deadline")).toLocalDateTime());
-
         TaskType type = new TaskType();
         type.setId((int)map.get("type_id"));
         type.setType((String)map.get("type"));
@@ -70,8 +68,9 @@ public class TaskDaoImpl implements TaskDao{
 
         task.setTaskType(type);
 
+        // optionalを生成するためにofNullable(nullの可能性のあるもの)で生成する
         Optional<Task> taskOpt = Optional.ofNullable(task);
-        
+        System.out.println(taskOpt.get().getId());
         return taskOpt;
 
      }
@@ -79,8 +78,8 @@ public class TaskDaoImpl implements TaskDao{
      @Override
      public void insert(Task task){
         jdbcTemplate.update(
-            "INSERT INTO Task(user_id, type_id, taskType, title, detail, deadline) VALUES(?, ?, ?, ?, ?, ?)",
-            task.getUserId(),task.getTypeId(),task.getTaskType(),task.getTitle(),task.getDetail(),task.getDeadline());
+            "INSERT INTO task(user_id, type_id, title, detail, deadline) VALUES(?, ?, ?, ?, ?)",
+            task.getUserId(),task.getTypeId(),task.getTitle(),task.getDetail(),task.getDeadline());
      }
 
      @Override
@@ -88,7 +87,7 @@ public class TaskDaoImpl implements TaskDao{
      public int update(Task task){
         return jdbcTemplate.update(
             "UPDATE task SET type_id = ?, title = ?, detail = ?, deadline = ? WHERE id = ?",
-            task.getTypeId(),task.getTitle(),task.getDetail(),task.getDeadline());
+            task.getTypeId(),task.getTitle(),task.getDetail(),task.getDeadline(),task.getId());
      }
 
      @Override
