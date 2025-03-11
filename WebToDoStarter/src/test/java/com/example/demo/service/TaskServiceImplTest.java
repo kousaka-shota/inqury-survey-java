@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
@@ -37,17 +38,21 @@ class TaskServiceImplTest {
     @DisplayName("全件検索のテスト")
     void testFindAllCheckCount() {
     	//全件取得
+        List<Task> list = taskService.findAll();
 
         //Taskテーブルに入っている2件が取得できているか確認
-
+        Assertions.assertEquals(2, list.size());
     }
 
     @Test
     @DisplayName("1件のタスクが取得できた場合のテスト")
     void testGetTaskFormReturnOne() {
     	//idが1のTaskを取得
+        Optional<Task> taskOpt = taskService.getTask(1);
 
         //取得できたことを確認
+        Assertions.assertEquals(1, taskOpt.get().getId());
+
     }
 
 }

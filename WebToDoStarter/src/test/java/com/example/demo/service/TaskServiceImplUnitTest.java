@@ -1,11 +1,13 @@
 package com.example.demo.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -14,6 +16,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.core.task.TaskRejectedException;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.example.demo.dao.TaskDao;
 import com.example.demo.entity.Task;
@@ -82,8 +86,13 @@ class TaskServiceImplUnitTest {
     void testGetTaskThrowException() {
 
         // モッククラスのI/Oをセット
-
+        when(dao.findById(0)).thenThrow(new EmptyResultDataAccessException(1));
         //タスクが取得できないとTaskNotFoundExceptionが発生することを検査
+        try {
+            Optional<Task> task = taskServiceImpl.getTask(0);
+        }catch(TaskNotFoundException e) {
+            assertEquals(e.getMessage(), "指定されたタスクが存在しません");
+        }
 
     }
 
@@ -93,14 +102,20 @@ class TaskServiceImplUnitTest {
     void testGetTaskReturnOne() {
 
     	//Taskをデフォルト値でインスタンス化
+        Task task = new Task();
+        Optional<Task> taskOpt = Optional.ofNullable(task);
 
         // モッククラスのI/Oをセット
+        when(dao.findById(0)).thenReturn(taskOpt);
 
         // サービスを実行
+        Optional<Task> taskTest = taskServiceImpl.getTask(0);
 
         // モックの指定メソッドの実行回数を検査
+        verify(dao, times(1)).findById(0);
 
         //Taskが存在していることを確認
+        Assertions.assertEquals(true, taskTest.isPresent());
 
     }
 
@@ -110,8 +125,14 @@ class TaskServiceImplUnitTest {
     void throwNotFoundException() {
 
         // モッククラスのI/Oをセット
+        when(dao.deleteById(0)).thenReturn(0);
 
     	//削除対象が存在しない場合、例外が発生することを検査
+        try{
+            taskServiceImpl.deleteById(0);
+        }catch (TaskNotFoundException e){
+            assertEquals(e.getMessage(), "削除するタスクが存在しません");
+        }
 
     }
 }
