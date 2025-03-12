@@ -1,0 +1,60 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.4.3'
+	id 'io.spring.dependency-management' version '1.1.7'
+	id 'org.openapi.generator' version '5.3.0'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '23'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(23)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	// 生成した物を使う場合は以下二つが必要
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	compileOnly 'io.swagger:swagger-annotations:1.6.5'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+// yamlからAPI documentの生成
+task buildApiDoc(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    generatorName.set("html2")
+    inputSpec.set("$rootDir/src/main/resources/api-schema.yaml")
+    
+    outputDir.set("$buildDir/apidoc")
+}
+
+// yamlからinterfaceの生成
+task buildSpringServer(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    generatorName.set("spring")
+    inputSpec.set("$rootDir/src/main/resources/api-schema.yaml")
+    outputDir.set("$buildDir/spring")
+    apiPackage.set("com.example.todoapi.controller")
+    modelPackage.set("com.example.todoapi.controller.model")
+    configOptions.set([
+            interfaceOnly: "true"
+    ])
+    
+}
+
+// java compile時にbuildSpringServer taskを実行してから行うように依存関係をつくる
+compileJava.dependsOn tasks.buildSpringServer
+
+// yamlから生成したinterfaceをcontrollerにimportできるようにする
+sourceSets.main.java.srcDir "$buildDir/spring/src/main/java"
