@@ -15,6 +15,12 @@ java {
 	}
 }
 
+configurations{
+	compileOnly{
+		extendsFrom annotationProcessor
+	}
+}
+
 repositories {
 	mavenCentral()
 }
@@ -28,10 +34,15 @@ dependencies {
 	compileOnly 'io.swagger:swagger-annotations:1.6.5'
 	// implementation 'io.swagger.core.v3:swagger-models:2.2.8'
 	// implementation 'io.swagger.core.v3:swagger-annotations:2.2.8'
+	
+	// springboot 3で必要だった
 	implementation 'org.yaml:snakeyaml:1.33'
 	implementation 'jakarta.validation:jakarta.validation-api:3.0.0' // javaxの代わりにjakartaを使用
     implementation 'jakarta.annotation:jakarta.annotation-api:2.0.0' // javaxの代わりにjakartaを使用
     implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
 	
  
 }
@@ -57,7 +68,6 @@ task buildSpringServer(type: org.openapitools.generator.gradle.plugin.tasks.Gene
     modelPackage.set("com.example.todo_api.controller.model")
     configOptions.set([
             interfaceOnly: "true"
-
     ])
 }
 openApiValidate {
