@@ -3,7 +3,6 @@ package com.example.todo_api.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.todoapi.controller.HealthApi;
 
 @RestController
 public class HealthController implements HealthApi {

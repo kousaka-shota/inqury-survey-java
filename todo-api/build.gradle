@@ -26,6 +26,14 @@ dependencies {
 	// 生成した物を使う場合は以下二つが必要
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	compileOnly 'io.swagger:swagger-annotations:1.6.5'
+	// implementation 'io.swagger.core.v3:swagger-models:2.2.8'
+	// implementation 'io.swagger.core.v3:swagger-annotations:2.2.8'
+	implementation 'org.yaml:snakeyaml:1.33'
+	implementation 'jakarta.validation:jakarta.validation-api:3.0.0' // javaxの代わりにjakartaを使用
+    implementation 'jakarta.annotation:jakarta.annotation-api:2.0.0' // javaxの代わりにjakartaを使用
+    implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
+	
+ 
 }
 
 tasks.named('test') {
@@ -45,13 +53,17 @@ task buildSpringServer(type: org.openapitools.generator.gradle.plugin.tasks.Gene
     generatorName.set("spring")
     inputSpec.set("$rootDir/src/main/resources/api-schema.yaml")
     outputDir.set("$buildDir/spring")
-    apiPackage.set("com.example.todoapi.controller")
-    modelPackage.set("com.example.todoapi.controller.model")
+    apiPackage.set("com.example.todo_api.controller")
+    modelPackage.set("com.example.todo_api.controller.model")
     configOptions.set([
             interfaceOnly: "true"
+
     ])
-    
 }
+openApiValidate {
+ 	inputSpec = "$rootDir/src/main/resources/api-schema.yaml"
+ }
+ 
 
 // java compile時にbuildSpringServer taskを実行してから行うように依存関係をつくる
 compileJava.dependsOn tasks.buildSpringServer
