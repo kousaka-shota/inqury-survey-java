@@ -43,8 +43,9 @@ dependencies {
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
-	
- 
+
+	// 家PCようで追加
+    implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
 }
 
 tasks.named('test') {
