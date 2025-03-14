@@ -1,11 +1,20 @@
 package com.example.todo_api.repository.sample;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public class SampleRepository {
+// @Repository
+// mybatisとして扱うためにMapperとinterfaceにする
+@Mapper
+public interface SampleRepository {
 
-    public SampleRecord select(){
-        return new SampleRecord("world");
-    }
+    // Mybatisの書き方（DAOとは異なり、SQLをここに書くことができる
+    @Select("SELECT content FROM samples ORDER BY id LIMIT 1;")
+    public SampleRecord select();
+
+    // public SampleRecord select(){
+    //     return new SampleRecord("world");
+    // }
+
 }
