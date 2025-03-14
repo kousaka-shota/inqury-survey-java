@@ -19,13 +19,24 @@ paths:
       responses:
         "200":
           description: OK
-  /tasks/1:
+  /tasks/{taskId}:
     get:
       tags:
         - tasks
 
       # メソッドの名前を付けれる
       operationId: ShowTask
+
+      parameters:
+        # 参照したい変数名
+        - name: taskId
+          # 今回はpath paramなのでpathと記述
+          in: path
+          required: true
+          description: "詳細を取得するタスクID"
+          schema:
+            type: integer
+            format: int64
       responses:
         "200":
           description: OK
