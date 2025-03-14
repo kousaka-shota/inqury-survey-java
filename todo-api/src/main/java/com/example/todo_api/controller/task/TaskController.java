@@ -4,6 +4,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.todo_api.controller.TasksApi;
 import com.example.todo_api.controller.model.TaskDTO;
+import com.example.todo_api.service.task.TaskEntity;
+import com.example.todo_api.service.task.TaskService;
+
+import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +18,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 // @RequestMapping("/tasks")
+@RequiredArgsConstructor
 public class TaskController implements TasksApi {
+
+    private final TaskService taskService;
 
     @Override
     public  ResponseEntity<TaskDTO> showTask() {
-        TaskDTO task = new TaskDTO();
-        task.setId(1L);
-        task.setTitle("test");
-        return ResponseEntity.ok(task);
-
+        TaskEntity task = taskService.find();
+        TaskDTO dto = new TaskDTO();
+        dto.setId(task.getId());
+        dto.setTitle(task.getTitle());
+        return ResponseEntity.ok(dto);
     }
 }
