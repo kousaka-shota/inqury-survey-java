@@ -50,8 +50,13 @@ dependencies {
 	runtimeOnly 'com.h2database:h2'
  	// testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
 
+	// TaskDTO生成時に必要だからbuild/springのpomから持ってきた
+	implementation "org.openapitools:jackson-databind-nullable:0.2.1"
+
 	// 家PCようで追加
     implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+
+
 }
 
 tasks.named('test') {
