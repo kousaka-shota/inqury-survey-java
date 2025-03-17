@@ -19,8 +19,43 @@ paths:
       responses:
         "200":
           description: OK
+  /tasks/:
+    post:
+      tags:
+        - tasks
+      summary: "タスクの作成"
+      description: "タスクを新規作成します"
+      operationId: "createTask"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TaskForm"
+
+      responses:
+        "201":
+          description: "Created"
+          headers:
+            location:
+              description: "作成されたタスクのURI"
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskDTO"
+        "401":
+          description: "bad request"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequestError"
+
   /tasks/{taskId}:
     get:
+      summary: "タスクの取得"
+      description: "指定したタスクIDのタスクを取得する"
       tags:
         - tasks
 
@@ -53,6 +88,16 @@ paths:
 
 components:
   schemas:
+    TaskForm:
+      type: object
+      properties:
+        title:
+          type: string
+          description: "タスクのタイトル"
+          maxLength: 256
+          minLength: 1
+      required:
+        - title
     TaskDTO:
       type: object
       properties:
@@ -80,3 +125,38 @@ components:
       required:
         - title
         - detail
+
+    BadRequestError:
+      type: object
+      description: "リクエストが不正"
+      properties:
+        title:
+          type: string
+          description: "エラーのタイトル"
+          default: "Bad Request"
+        detail:
+          type: string
+          description: "エラーの詳細"
+          default: "リクエストが不正です。正しいリクエストでリトライしてください"
+        invalid-params:
+          type: array
+          items:
+            $ref: "#/components/schemas/InvalidParams"
+      required:
+        - title
+        - detail
+        - invalid-params
+
+    InvalidParams:
+      type: object
+      description: "不正なリクエストの詳細"
+      properties:
+        name:
+          type: string
+          description: "エラーが発生したフィールド名"
+        reason:
+          type: string
+          description: "エラーの理由"
+      required:
+        - name
+        - reason

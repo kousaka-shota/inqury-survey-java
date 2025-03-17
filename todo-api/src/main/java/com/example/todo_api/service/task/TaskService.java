@@ -22,4 +22,13 @@ public class TaskService {
         .orElseThrow(()->new TaskEntityNotFoundException(taskId));
     }
 
+    public TaskEntity create(String title){
+        TaskRecord record = new TaskRecord(null, title);
+        // こうするだけでrecordには勝手にincrementされたidが入ってくる（repositoryで実装済みのため）
+        taskRepository.insert(record);
+
+        TaskEntity entity = new TaskEntity(record.getId(), record.getTitle());
+        return entity;
+    }
+
 }
