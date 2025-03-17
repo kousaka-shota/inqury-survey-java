@@ -1,5 +1,6 @@
 package com.example.todo_api.repository.task;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.apache.ibatis.annotations.Insert;
@@ -20,5 +21,8 @@ public interface TaskRepository {
     @Insert("INSERT INTO tasks (title) VALUES (#{title})")
     // autoIncrementされた値を取得するには返り値の型がvoidじゃないといけない
     void insert(TaskRecord record);
+
+    @Select("SELECT id, title FROM tasks")
+    List<TaskRecord> selectList();
 
 }

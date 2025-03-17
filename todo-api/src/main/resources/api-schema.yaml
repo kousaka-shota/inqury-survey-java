@@ -20,6 +20,20 @@ paths:
         "200":
           description: OK
   /tasks/:
+    get:
+      tags:
+        - tasks
+      summary: "タスクの一覧取得"
+      description: "タスクの一覧を取得できます"
+      operationId: listTasks
+      responses:
+        "200":
+          description: "OK"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskListDTO"
+
     post:
       tags:
         - tasks
@@ -98,6 +112,16 @@ components:
           minLength: 1
       required:
         - title
+    TaskListDTO:
+      description: "タスクのリスト"
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/TaskDTO"
+      required:
+        - results
     TaskDTO:
       type: object
       properties:
