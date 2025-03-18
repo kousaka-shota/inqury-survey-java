@@ -3,7 +3,6 @@ package com.example.todo_api.controller.task;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.todo_api.controller.TasksApi;
-import com.example.todo_api.controller.advice.CustomExceptionHandler;
 import com.example.todo_api.controller.model.TaskDTO;
 import com.example.todo_api.controller.model.TaskForm;
 import com.example.todo_api.controller.model.TaskListDTO;
@@ -16,15 +15,9 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RestController
-// @RequestMapping("/tasks")
 @RequiredArgsConstructor
 public class TaskController implements TasksApi {
 
