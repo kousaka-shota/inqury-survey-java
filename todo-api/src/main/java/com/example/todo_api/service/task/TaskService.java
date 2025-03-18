@@ -1,19 +1,13 @@
 package com.example.todo_api.service.task;
 
-import com.example.todo_api.controller.HealthController;
-import com.example.todo_api.controller.advice.CustomExceptionHandler;
 import com.example.todo_api.repository.task.TaskRecord;
 import com.example.todo_api.repository.task.TaskRepository;
 
 import lombok.RequiredArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
-import org.h2.util.Task;
 import org.springframework.stereotype.Service;
 
 @Service
