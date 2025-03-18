@@ -8,7 +8,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 
-import com.example.todo_api.service.task.TaskEntity;
 
 @Mapper
 public interface TaskRepository {
