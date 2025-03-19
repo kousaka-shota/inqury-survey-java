@@ -1,5 +1,6 @@
 package com.example.todo_api.service.task;
 
+import com.example.todo_api.controller.model.TaskForm;
 import com.example.todo_api.repository.task.TaskRecord;
 import com.example.todo_api.repository.task.TaskRepository;
 
@@ -39,6 +40,12 @@ public class TaskService {
         ).collect(Collectors.toList());
         return entityList;
 
+    }
+
+    public TaskEntity update(Long taskId, String title) {
+        taskRepository.update(new TaskRecord(taskId, title));
+
+        return find(taskId);
     }
 
 }
